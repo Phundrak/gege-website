@@ -12,7 +12,7 @@ const app = createApp(App);
 
 router.beforeEach((to, from, next) => {
   const pbStore = usePocketbaseStore();
-  if (!pbStore.loggedIn && ['home', 'login'].every((path) => path != to.name)) {
+  if (!pbStore.auth.loggedIn && ['home', 'login'].every((path) => path != to.name)) {
     next({ name: 'home' });
   } else {
     next();

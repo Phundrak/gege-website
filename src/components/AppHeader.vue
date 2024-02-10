@@ -1,7 +1,7 @@
 <template>
   <header class="flex-row-center flex-spread">
-    <RouterLink class="title h4" :to="{ name: 'home' }">GéDR</RouterLink>
-    <div class="buttons flex-row gap-1rem">
+    <RouterLink class="title h4" :to="{ name: 'home' }">{{ appTitle }}</RouterLink>
+    <div class="buttons gap-1rem">
       <button @click="toggleDark()" class="secondary">{{ isDark ? 'Dark' : 'Light' }}</button>
       <button v-if="!loggedIn" @click="login()" class="secondary">Login</button>
       <RouterLink v-else :to="{ name: 'account' }" class="button secondary">Account</RouterLink>
@@ -16,14 +16,16 @@ import { usePocketbaseStore } from '@/stores/pocketbase';
 import { ref } from 'vue';
 import router from '@/router';
 
+const appTitle = import.meta.env.VITE_NAME;
+
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
 const pbStore = usePocketbaseStore();
-const loggedIn = ref(pbStore.loggedIn);
+const loggedIn = ref(pbStore.auth.loggedIn);
 
 const login = () => {
-  pbStore.login().subscribe({
+  pbStore.auth.login().subscribe({
     next: () => router.go(0),
   });
 };

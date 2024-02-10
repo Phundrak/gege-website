@@ -1,5 +1,5 @@
 <template>
-  <LoggedInHome v-if="pbStore.loggedIn" />
+  <LoggedInHome v-if="pbStore.auth.loggedIn" />
   <LoggedOutHome v-else />
 </template>
 
@@ -10,7 +10,7 @@ import LoggedOutHome from '@/components/LoggedOutHome.vue';
 import LoggedInHome from '@/components/LoggedInHome.vue';
 
 const pbStore = usePocketbaseStore();
-pbStore.refresh().subscribe({
+pbStore.auth.refresh().subscribe({
   error: (err) => console.log('Could not refresh account data:', err),
 });
 </script>

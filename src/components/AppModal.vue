@@ -13,7 +13,7 @@
         <button v-if="props.type === 'info'" class="accent" type="button" @click="close">
           Fermer
         </button>
-        <div v-else class="flex-row gap-1rem action-buttons">
+        <div v-else class="gap-1rem buttons">
           <button class="faded" type="button" @click="close">Annuler</button>
           <button type="button" @click="agree">OK</button>
         </div>
@@ -95,9 +95,5 @@ const agree = () => {
   font-weight: bold;
   background: transparent;
   .themed(color, @light-background, @dark-text);
-}
-
-.action-buttons {
-  justify-content: flex-end;
 }
 </style>

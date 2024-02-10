@@ -37,11 +37,11 @@ import AppModal from '@/components/AppModal.vue';
 import { ref } from 'vue';
 
 const pbStore = usePocketbaseStore();
-const username = pbStore.username;
+const username = pbStore.auth.username;
 const showModal = ref<boolean>(false);
 
 const logout = () => {
-  pbStore.logout();
+  pbStore.auth.logout();
   router.go(0);
 };
 
@@ -54,10 +54,10 @@ const closeModal = () => {
 };
 
 const deleteAccount = () => {
-  pbStore.deleteAccount().subscribe({
+  pbStore.auth.deleteAccount().subscribe({
     next: () => {
       closeModal();
-      pbStore.logout();
+      pbStore.auth.logout();
       router.go(0);
     },
   });
