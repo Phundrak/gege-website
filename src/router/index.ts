@@ -13,6 +13,11 @@ const router = createRouter({
       name: 'account',
       component: () => import('@/views/AccountView.vue'),
     },
+    {
+      path: '/new-campaign',
+      name: 'new-campaign',
+      component: () => import('@/views/CreateCampaignView.vue'),
+    },
   ],
 });
 

@@ -12,5 +12,5 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  ignorePatterns: ['node_modules/', '**/node_modules/'],
+  ignorePatterns: ['pocketbase/'],
 };
