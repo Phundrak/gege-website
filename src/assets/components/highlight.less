@@ -1,0 +1,26 @@
+@import '../_mixins';
+
+.highlight {
+  z-index: 5;
+  position: relative;
+  .flex-col;
+  justify-content: flex-end;
+
+  &::before {
+    content: '';
+    height: 50%;
+    width: 108%;
+    left: -4%;
+    display: block;
+    z-index: -5;
+    opacity: 30%;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+    background: linear-gradient(180deg, transparent 50%, @dark-accent 50%);
+  }
+
+  &:hover::before {
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+  }
+}

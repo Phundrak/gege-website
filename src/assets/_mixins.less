@@ -1,0 +1,64 @@
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  .flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  .flex;
+  flex-direction: row;
+}
+
+.flex-center {
+  align-items: center;
+}
+
+.flex-row-center {
+  .flex-row;
+  .flex-center;
+}
+
+.flex-col-center {
+  .flex-col;
+  .flex-center;
+}
+
+.flex-spread {
+  justify-content: space-between;
+}
+
+.themed(@property, @light, @dark) {
+  @{property}: @light;
+  html.dark & {
+    @{property}: @dark;
+  }
+}
+
+.gen-gap(@n, @i: 1) when (@i =< @n) {
+  .gap-@{i}rem {
+    gap: (@i * 1rem);
+  }
+
+  .gen-gap(@n, (@i + 1));
+}
+.gen-gap(10);
+
+.gen-grid-two-col-width(@right: 10, @left: 90) when (@right =< 90) {
+  .two-col-@{left}-@{right} {
+    grid-template-columns: (@left * 1%) (@right * 1%);
+  }
+
+  .gen-grid-two-col-width((@right + 10), (@left - 10));
+}
+.gen-grid-two-col-width();
+
+.gen-margin(@n, @i: 1) when (@i =< @n) {
+  .margin-@{i}rem {
+    margin: (@i * 1rem);
+  }
+  .gen-margin(@n, (@i + 1));
+}
+.gen-margin(10);

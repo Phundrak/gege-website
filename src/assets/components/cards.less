@@ -1,0 +1,26 @@
+@import '../_mixins';
+
+.card {
+  border-radius: 2rem;
+  padding: 2rem;
+  .themed(background-color, @light-background-100, @dark-background-100);
+
+  &.more {
+    .themed(background-color, @light-background-200, @dark-background-200);
+  }
+
+  &.accent {
+    .themed(background-color, @light-accent, @dark-accent);
+    .themed(color, @light-background, @dark-background);
+  }
+
+  &.primary {
+    .themed(background-color, @light-primary, @dark-primary);
+    .themed(color, @light-background, @dark-background);
+  }
+
+  &.secondary {
+    .themed(background-color, @light-secondary, @dark-secondary);
+    .themed(color, @light-text, @dark-text);
+  }
+}
