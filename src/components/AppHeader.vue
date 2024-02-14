@@ -2,9 +2,9 @@
   <header class="flex-row-center flex-spread">
     <RouterLink class="title h4" :to="{ name: 'home' }">{{ appTitle }}</RouterLink>
     <div class="buttons gap-1rem">
-      <button @click="toggleDark()" class="secondary">{{ isDark ? 'Dark' : 'Light' }}</button>
-      <button v-if="!loggedIn" @click="login()" class="secondary">Login</button>
-      <RouterLink v-else :to="{ name: 'account' }" class="button secondary">Account</RouterLink>
+      <button @click="toggleDark()" class="secondary">{{ isDark ? 'Sombre' : 'Clair' }}</button>
+      <button v-if="!loggedIn" @click="login()" class="secondary">Connexion</button>
+      <RouterLink v-else :to="{ name: 'account' }" class="button secondary">Compte</RouterLink>
     </div>
   </header>
 </template>

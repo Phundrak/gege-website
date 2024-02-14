@@ -3,11 +3,8 @@ import { defineStore } from 'pinia';
 import { from, map, Observable, tap } from 'rxjs';
 import { computed, ref } from 'vue';
 
-export interface NewCampaign {
-  name: string | null;
-  game_master: string | null;
-  players: string[] | null;
-}
+import type { Campaign, NewCampaign } from '@/models/Campaign';
+import type { SimpleUser } from '@/models/User';
 
 export const usePocketbaseStore = defineStore('pocketbase', () => {
   const pb = new PocketBase(import.meta.env.VITE_PB_URL);
@@ -47,22 +44,15 @@ export const usePocketbaseStore = defineStore('pocketbase', () => {
     );
   }
 
-  function simpleUserList(): Observable<RecordModel[]> {
-    return from(
-      pb.collection('public_users').getFullList({
-        sort: 'username',
-      })
-    );
-  }
-
   /////////////////////////////////////////////////////////////////////////////
   //                                Campaigns                                //
   /////////////////////////////////////////////////////////////////////////////
 
-  function listCampaigns(): Observable<RecordModel[]> {
+  function listCampaigns(): Observable<Campaign[]> {
     return from(
-      pb.collection('campaign').getFullList({
+      pb.collection('campaigns_simple_view').getFullList<Campaign>({
         sort: 'name',
+        expand: 'players,game_master',
       })
     );
   }
@@ -71,9 +61,20 @@ export const usePocketbaseStore = defineStore('pocketbase', () => {
     return from(pb.collection('campaign').create(campaign));
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+  //                                  Users                                  //
+  /////////////////////////////////////////////////////////////////////////////
+
+  function allUsersSimple(): Observable<SimpleUser[]> {
+    return from(
+      pb.collection('public_users').getFullList<SimpleUser>({
+        sort: 'username',
+      })
+    );
+  }
+
   return {
     auth: {
-      authData,
       authStore,
       loggedIn,
       username,
@@ -88,7 +89,7 @@ export const usePocketbaseStore = defineStore('pocketbase', () => {
       createCampaign,
     },
     users: {
-      simpleUserList,
+      allUsersSimple,
     },
   };
 });

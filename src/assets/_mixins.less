@@ -12,6 +12,10 @@
   flex-direction: row;
 }
 
+.center {
+  margin: 0 auto;
+}
+
 .flex-center {
   align-items: center;
 }
@@ -28,6 +32,22 @@
 
 .flex-spread {
   justify-content: space-between;
+}
+
+.flex-even {
+  justify-content: space-around;
+}
+
+.flex-wrap {
+  .flex;
+  flex-wrap: wrap;
+}
+
+.flex-size-even {
+  * {
+    flex: 1;
+    flex-basis: 100%;
+  }
 }
 
 .themed(@property, @light, @dark) {
@@ -66,4 +86,8 @@
 .buttons {
   .flex-row;
   justify-content: end;
+}
+
+.text-center {
+  text-align: center;
 }

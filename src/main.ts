@@ -14,9 +14,8 @@ router.beforeEach((to, from, next) => {
   const pbStore = usePocketbaseStore();
   if (!pbStore.auth.loggedIn && ['home', 'login'].every((path) => path != to.name)) {
     next({ name: 'home' });
-  } else {
-    next();
   }
+  next();
 });
 
 app.use(createPinia());
