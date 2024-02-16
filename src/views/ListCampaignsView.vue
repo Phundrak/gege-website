@@ -1,34 +1,26 @@
 <template>
   <h1>Campagnes</h1>
+  <div class="flex-col flex-center">
+    <RouterLink :to="{ name: 'new-campaign' }" class="button">Créer une campagne</RouterLink>
+  </div>
   <div class="flex-col gap-2rem">
-    <div class="flex-col flex-center">
-      <RouterLink :to="{ name: 'new-campaign' }" class="button">Créer une campagne</RouterLink>
-    </div>
     <h2>Campagnes que je gère</h2>
-    <div>
-      <ul
-        v-if="campaignsGameMaster.length > 0"
-        class="no-style center flex-wrap flex-size-even flex-even gap-1rem">
-        <li v-for="campaign in campaignsGameMaster" :key="campaign.id">
-          <SmallCampaignCard :campaign="campaign" />
-        </li>
-      </ul>
+    <ul v-if="campaignsGameMaster.length > 0" class="campaign-list">
+      <li v-for="campaign in campaignsGameMaster" :key="campaign.id" class="campaign">
+        <SmallCampaignCard :campaign="campaign" />
+      </li>
+    </ul>
 
-      <div v-else>Pas de campagne pour l’instant</div>
-    </div>
+    <div v-else>Pas de campagne pour l’instant</div>
   </div>
   <div>
     <h2>Campagnes où je joue</h2>
-    <div>
-      <ul
-        v-if="campaignsPlayer.length > 0"
-        class="no-style center flex-wrap flex-size-even flex-even gap-1rem">
-        <li v-for="campaign in campaignsGameMaster" :key="campaign.id">
-          <SmallCampaignCard :campaign="campaign" />
-        </li>
-      </ul>
-      <div v-else class="card">Pas de campagne pour l’instant</div>
-    </div>
+    <ul v-if="campaignsPlayer.length > 0" class="campaign-list">
+      <li v-for="campaign in campaignsPlayer" :key="campaign.id">
+        <SmallCampaignCard :campaign="campaign" />
+      </li>
+    </ul>
+    <div v-else class="card">Pas de campagne pour l’instant</div>
   </div>
 </template>
 
@@ -52,10 +44,26 @@ const campaignsPlayer = computed<Campaign[]>(() =>
 );
 
 onMounted(() => {
-  pbStore.campaign.listCampaigns().subscribe({
+  pbStore.campaigns.list().subscribe({
     next: (result) => (campaigns.value = result),
     error: (err) => console.warn(err),
     complete: () => console.log('List campaigns completed'),
   });
 });
 </script>
+
+<style scoped lang="less">
+@import '@/assets/_mixins';
+
+.campaign-list {
+  .ul-no-style;
+  .flex-wrap;
+  .flex-row;
+  .gap-2rem;
+  justify-content: space-around;
+}
+.campaign {
+  display: inline-block;
+  height: 100%;
+}
+</style>

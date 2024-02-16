@@ -24,6 +24,7 @@ const version = __APP_VERSION__;
 
 footer {
   margin: 2rem;
+  margin-top: 2rem;
   position: absolute;
   left: 0;
   right: 0;

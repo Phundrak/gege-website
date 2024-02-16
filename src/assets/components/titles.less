@@ -17,39 +17,35 @@ h5 {
   .title;
 }
 
+.tag-font-size(@tag, @base-size, @min-size: 1rem) {
+  .@{tag},
+  @{tag} {
+    font-size: (@base-size * 1rem);
+  }
+
+  @media all and (max-width: 400px) {
+    .@{tag},
+    @{tag} {
+      font-size: max((@base-size * 0.75rem), @min-size);
+    }
+  }
+}
+
 html {
   font-size: 100%;
 }
 
 @h1-size: 4.21rem;
-.h1,
-h1 {
-  font-size: @h1-size;
-}
-
 @h2-size: 3.158rem;
-.h2,
-h2 {
-  font-size: @h2-size;
-}
-
 @h3-size: 2.369rem;
-.h3,
-h3 {
-  font-size: @h3-size;
-}
-
 @h4-size: 1.777rem;
-.h4,
-h4 {
-  font-size: @h4-size;
-}
-
 @h5-size: 1.333rem;
-.h5,
-h5 {
-  font-size: @h5-size;
-}
+
+.tag-font-size(h1, @h1-size);
+.tag-font-size(h2, @h2-size);
+.tag-font-size(h3, @h3-size);
+.tag-font-size(h4, @h4-size);
+.tag-font-size(h5, 1.333rem);
 
 .small,
 small {

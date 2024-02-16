@@ -2,9 +2,18 @@
   <header class="flex-row-center flex-spread">
     <RouterLink class="title h4" :to="{ name: 'home' }">{{ appTitle }}</RouterLink>
     <div class="buttons gap-1rem">
-      <button @click="toggleDark()" class="secondary">{{ isDark ? 'Sombre' : 'Clair' }}</button>
+      <button @click="toggleDark()" class="secondary">
+        <i v-if="isDark" class="gdrico-moon"></i>
+        <i v-else class="gdrico-sun"></i>
+      </button>
+
       <button v-if="!loggedIn" @click="login()" class="secondary">Connexion</button>
-      <RouterLink v-else :to="{ name: 'account' }" class="button secondary">Compte</RouterLink>
+      <RouterLink v-else :to="{ name: 'account' }" class="button secondary">
+        <div id="account" class="flex-row">
+          <i class="gdrico-user"></i>
+          <div>Compte</div>
+        </div>
+      </RouterLink>
     </div>
   </header>
 </template>
@@ -20,7 +29,6 @@ const appTitle = import.meta.env.VITE_NAME;
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
-
 const pbStore = usePocketbaseStore();
 const loggedIn = ref(pbStore.auth.loggedIn);
 
@@ -44,5 +52,9 @@ header {
     text-decoration: none;
     color: inherit;
   }
+}
+
+#account {
+  gap: 0.5rem;
 }
 </style>

@@ -3,11 +3,12 @@ import { defineStore } from 'pinia';
 import { from, map, Observable, tap } from 'rxjs';
 import { computed, ref } from 'vue';
 
-import type { Campaign, NewCampaign } from '@/models/Campaign';
-import type { SimpleUser } from '@/models/User';
+import { Campaign, type ICampaign, type NewCampaign } from '@/models/Campaign';
+import { SimpleUser, type IUser } from '@/models/User';
 
 export const usePocketbaseStore = defineStore('pocketbase', () => {
   const pb = new PocketBase(import.meta.env.VITE_PB_URL);
+  pb.autoCancellation(false);
 
   /////////////////////////////////////////////////////////////////////////////
   //                              Authentication                             //
@@ -50,15 +51,23 @@ export const usePocketbaseStore = defineStore('pocketbase', () => {
 
   function listCampaigns(): Observable<Campaign[]> {
     return from(
-      pb.collection('campaigns_simple_view').getFullList<Campaign>({
+      pb.collection('campaigns_simple_view').getFullList<ICampaign>({
         sort: 'name',
         expand: 'players,game_master',
       })
+    ).pipe(map((campaigns) => campaigns.map((campaign) => new Campaign(campaign))));
+  }
+
+  function createCampaign(campaign: NewCampaign): Observable<Campaign> {
+    return from(pb.collection<ICampaign>('campaign').create(campaign)).pipe(
+      map((campaign) => new Campaign(campaign))
     );
   }
 
-  function createCampaign(campaign: NewCampaign): Observable<RecordModel> {
-    return from(pb.collection('campaign').create(campaign));
+  function getCampaignById(id: string): Observable<Campaign> {
+    return from(pb.collection<ICampaign>('campaign').getOne(id)).pipe(
+      map((campaign) => new Campaign(campaign))
+    );
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -70,10 +79,21 @@ export const usePocketbaseStore = defineStore('pocketbase', () => {
       pb.collection('public_users').getFullList<SimpleUser>({
         sort: 'username',
       })
+    ).pipe(map((users) => users.map((user) => new SimpleUser(user))));
+  }
+
+  function userAvatar(userId: string, thumbSize: number = 100): Observable<string | null> {
+    return from(pb.collection<IUser>('users').getOne(userId)).pipe(
+      map((user) => {
+        return user.avatar
+          ? pb.files.getUrl(user, user.avatar, { thumb: `${thumbSize}x${thumbSize}` })
+          : null;
+      })
     );
   }
 
   return {
+    pb,
     auth: {
       authStore,
       loggedIn,
@@ -84,12 +104,14 @@ export const usePocketbaseStore = defineStore('pocketbase', () => {
       logout,
       deleteAccount,
     },
-    campaign: {
-      listCampaigns,
-      createCampaign,
+    campaigns: {
+      list: listCampaigns,
+      create: createCampaign,
+      get: getCampaignById,
     },
     users: {
-      allUsersSimple,
+      listSimple: allUsersSimple,
+      avatar: userAvatar,
     },
   };
 });

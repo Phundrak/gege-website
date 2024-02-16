@@ -4,6 +4,11 @@
   border-radius: 2rem;
   padding: 2rem;
   .themed(background-color, @light-background-100, @dark-background-100);
+  .themed(color, @light-text, @dark-text);
+
+  &.less {
+    .themed(background-color, @light-background-50, @dark-background-50);
+  }
 
   &.more {
     .themed(background-color, @light-background-200, @dark-background-200);
@@ -17,6 +22,16 @@
   &.primary {
     .themed(background-color, @light-primary, @dark-primary);
     .themed(color, @light-background, @dark-background);
+
+    &.less {
+      .themed(background-color, @light-primary-600, @dark-primary-600);
+      .themed(color, @light-background-50, @dark-background-50);
+    }
+
+    &.more {
+      .themed(background-color, @light-primary-800, @dark-primary-800);
+      .themed(color, @light-background-100, @dark-background-100);
+    }
   }
 
   &.secondary {

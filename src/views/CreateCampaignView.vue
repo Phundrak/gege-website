@@ -11,7 +11,7 @@
     <label class="flex-col gap-1rem" for="players" autocomplete="off">Joueurs (2 à 10)</label>
     <select id="players" name="players" multiple v-model="campaign.players">
       <option v-for="user in users" :key="user.id" :value="user.id">
-        {{ displayName(user) }}
+        {{ user.displayName() }}
       </option>
     </select>
 
@@ -27,7 +27,7 @@ import { onMounted, ref } from 'vue';
 import router from '@/router';
 import { usePocketbaseStore } from '@/stores/pocketbase';
 import { type NewCampaign } from '@/models/Campaign';
-import { type SimpleUser, displayName } from '@/models/User';
+import { type SimpleUser } from '@/models/User';
 
 const pbStore = usePocketbaseStore();
 const users = ref<SimpleUser[]>([]);
@@ -39,7 +39,7 @@ const campaign = ref<NewCampaign>({
 });
 
 const createCampaign = () => {
-  pbStore.campaign.createCampaign(campaign.value).subscribe({
+  pbStore.campaigns.create(campaign.value).subscribe({
     next: () => {
       router.push({ name: 'home' });
     },
@@ -47,8 +47,10 @@ const createCampaign = () => {
 };
 
 onMounted(() => {
-  pbStore.users.allUsersSimple().subscribe({
-    next: (results) => (users.value = results.filter((user) => user.id !== pbStore.auth.userId)),
+  pbStore.users.listSimple().subscribe({
+    next: (results) => {
+      users.value = results.filter((user) => user.id !== pbStore.auth.userId);
+    },
     error: (err) => console.warn('Failed to fetch all users', err),
   });
 });

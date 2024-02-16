@@ -3,7 +3,7 @@
     <h1>Hello {{ username }}&nbsp;!</h1>
     <div>
       <h2>Actions</h2>
-      <ul class="no-style flex-col-center gap-1rem">
+      <ul class="ul-no-style flex-col-center gap-1rem">
         <li>
           <button @click="logout()">Logout</button>
         </li>

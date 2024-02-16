@@ -18,7 +18,7 @@ main {
   margin: 5rem;
   align-content: center;
   padding-top: 4.5rem !important;
-  padding-bottom: 7rem !important;
+  padding-bottom: 10rem !important;
 }
 
 header {
