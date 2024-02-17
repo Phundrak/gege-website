@@ -5,6 +5,7 @@ import { computed, ref } from 'vue';
 
 import { Campaign, type ICampaign, type NewCampaign } from '@/models/Campaign';
 import { SimpleUser, type IUser } from '@/models/User';
+import { OAuthResponse } from '@/models/Auth';
 
 export const usePocketbaseStore = defineStore('pocketbase', () => {
   const pb = new PocketBase(import.meta.env.VITE_PB_URL);
@@ -14,20 +15,24 @@ export const usePocketbaseStore = defineStore('pocketbase', () => {
   //                              Authentication                             //
   /////////////////////////////////////////////////////////////////////////////
 
-  const authData = ref<RecordAuthResponse<RecordModel> | null>(null);
+  const authData = ref<OAuthResponse | null>(null);
   const authStore = computed<BaseAuthStore>(() => pb.authStore);
   const loggedIn = computed<boolean>(() => pb.authStore.isValid);
   const username = computed<string | null>(() => authStore.value.model?.username);
   const userId = computed<string | null>(() => authStore.value.model?.id);
 
-  function login(): Observable<RecordAuthResponse<RecordModel>> {
-    return from(pb.collection('users').authWithOAuth2({ provider: 'discord' })).pipe(
-      map((auth) => (authData.value = auth))
+  function login(): Observable<OAuthResponse> {
+    return from(pb.collection('users').authWithOAuth2<IUser>({ provider: 'discord' })).pipe(
+      map((auth) => new OAuthResponse(auth)),
+      tap((auth) => (authData.value = auth))
     );
   }
 
   function refresh(): Observable<RecordAuthResponse<RecordModel>> {
-    return from(pb.collection('users').authRefresh()).pipe(tap((auth) => (authData.value = auth)));
+    return from(pb.collection('users').authRefresh<IUser>()).pipe(
+      map((auth) => new OAuthResponse(auth)),
+      tap((auth) => (authData.value = auth))
+    );
   }
 
   function logout() {

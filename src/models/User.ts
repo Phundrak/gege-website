@@ -7,7 +7,6 @@ export interface ISimpleUser extends RecordModel {
   name?: string;
   avatar?: string;
   expand?: { [key: string]: any };
-  avatarLink: (pbStore: any) => Observable<string | null>;
 }
 
 export interface IUser extends SimpleUser {
