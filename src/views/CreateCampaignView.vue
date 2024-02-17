@@ -15,7 +15,7 @@
       <legend class="highlight" for="players" autocomplete="off">Joueurs</legend>
       <div v-for="user in users" :key="user.id" class="player">
         <input type="checkbox" v-model="players" :name="user.id" :value="user.id" :id="user.id" />
-        <label :for="user.id">{{ user.displayName() }}</label>
+        <label :for="user.id"><UserAvatarAndName :user="user" :align="'left'" /></label>
       </div>
     </fieldset>
     <div class="buttons gap-1rem">
@@ -31,6 +31,7 @@ import router from '@/router';
 import { usePocketbaseStore } from '@/stores/pocketbase';
 import { type NewCampaign } from '@/models/Campaign';
 import { type SimpleUser } from '@/models/User';
+import UserAvatarAndName from '@/components/UserAvatarAndName.vue';
 
 const pbStore = usePocketbaseStore();
 const users = ref<SimpleUser[]>([]);

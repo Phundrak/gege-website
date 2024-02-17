@@ -3,8 +3,8 @@
     <UserAvatar
       :user="props.user"
       :icon="type === 'gamemaster' ? 'user-tie' : 'user'"
-      :size="avatarSize"
-      :style="'width: ${avatarSize}px'" />
+      :size="20"
+      :style="'width: 20px'" />
     <span>{{ props.user.displayName() }}</span>
   </div>
 </template>
@@ -17,12 +17,10 @@ import { computed } from 'vue';
 const props = defineProps<{
   user: SimpleUser;
   type?: 'gamemaster' | 'player';
-  avatarSize?: number;
   align?: 'right' | 'center' | 'left';
 }>();
 
 const type = computed(() => props.type ?? 'player');
-const avatarSize = computed(() => props.avatarSize ?? 20);
 const align = computed(() => props.align ?? 'center');
 </script>
 

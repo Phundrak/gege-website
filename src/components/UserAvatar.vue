@@ -2,7 +2,9 @@
   <div v-if="avatar" class="img-container">
     <img :alt="altText" :src="avatar" :height="size" :width="size" />
   </div>
-  <i v-else :class="`gdrico-${icon}`"></i>
+  <div v-else class="text-center">
+    <i :class="`gdrico-${icon}`"></i>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -36,6 +38,10 @@ onMounted(() => {
   img {
     object-fit: cover;
     border-radius: 1rem;
+  }
+
+  i {
+    text-align: center;
   }
 }
 </style>
