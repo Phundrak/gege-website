@@ -3,7 +3,7 @@
   <div class="flex-col flex-center">
     <RouterLink :to="{ name: 'new-campaign' }" class="button">Créer une campagne</RouterLink>
   </div>
-  <div class="flex-col gap-2rem">
+  <div class="flex-col flex-center gap-2rem">
     <h2>Campagnes que je gère</h2>
     <ul v-if="campaignsGameMaster.length > 0" class="campaign-list">
       <li v-for="campaign in campaignsGameMaster" :key="campaign.id" class="campaign">
@@ -13,7 +13,7 @@
 
     <div v-else>Pas de campagne pour l’instant</div>
   </div>
-  <div>
+  <div class="flex-col flex-center gap-2rem">
     <h2>Campagnes où je joue</h2>
     <ul v-if="campaignsPlayer.length > 0" class="campaign-list">
       <li v-for="campaign in campaignsPlayer" :key="campaign.id">

@@ -7,7 +7,10 @@
       <div class="flex-col gamemaster">
         <div>Maître jeu</div>
         <div class="user">
-          <UserAvatarAndName :user="props.campaign.expand!.game_master!" :align="'right'" />
+          <UserAvatarAndName
+            :user="props.campaign.expand!.game_master!"
+            :type="'gamemaster'"
+            :align="'right'" />
         </div>
       </div>
       <div class="flex-col gap-1rem players">
