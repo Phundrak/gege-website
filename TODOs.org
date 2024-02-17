@@ -1,0 +1,7 @@
+* TODO Notification system
+Not push notifications, but chips or banners that appear when an
+action succeeds or fails and informing the user of it.
+
+* TODO Character sheet creation
+* TODO Assign character sheet from premade sheets
+* TODO Switch between sheets
