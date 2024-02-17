@@ -1,20 +1,23 @@
 <template>
   <h1>Création d’une campagne</h1>
   <form @submit.prevent="createCampaign" class="flex-col gap-2rem card" autocomplete="off">
-    <label for="campaign-name" class="flex-col gap-1rem">Nom de la nouvelle campagne</label>
-    <input
-      name="campaign-name"
-      type="text"
-      v-model="campaign.name"
-      placeholder="Nom de la nouvelle campagne" />
+    <label for="campaign-name">Nom de la nouvelle campagne</label>
+    <div>
+      <input
+        name="campaign-name"
+        type="text"
+        v-model="campaign.name"
+        autocomplete="off"
+        placeholder="Nom de la nouvelle campagne" />
+    </div>
 
-    <label class="flex-col gap-1rem" for="players" autocomplete="off">Joueurs (2 à 10)</label>
-    <select id="players" name="players" multiple v-model="campaign.players">
-      <option v-for="user in users" :key="user.id" :value="user.id">
-        {{ user.displayName() }}
-      </option>
-    </select>
-
+    <fieldset class="player-selection">
+      <legend class="highlight" for="players" autocomplete="off">Joueurs</legend>
+      <div v-for="user in users" :key="user.id" class="player">
+        <input type="checkbox" v-model="players" :name="user.id" :value="user.id" :id="user.id" />
+        <label :for="user.id">{{ user.displayName() }}</label>
+      </div>
+    </fieldset>
     <div class="buttons gap-1rem">
       <RouterLink :to="{ name: 'home' }" class="button faded">Annuler</RouterLink>
       <button type="submit">Envoyer</button>
@@ -31,6 +34,7 @@ import { type SimpleUser } from '@/models/User';
 
 const pbStore = usePocketbaseStore();
 const users = ref<SimpleUser[]>([]);
+const players = ref([]);
 
 const campaign = ref<NewCampaign>({
   name: null,
@@ -39,6 +43,7 @@ const campaign = ref<NewCampaign>({
 });
 
 const createCampaign = () => {
+  campaign.value.players = [...players.value];
   pbStore.campaigns.create(campaign.value).subscribe({
     next: () => {
       router.push({ name: 'home' });
@@ -57,7 +62,22 @@ onMounted(() => {
 </script>
 
 <style scoped lang="less">
+@import '@/assets/main';
+
 form {
   min-width: 90%;
+}
+
+.player-selection {
+  border: none;
+  .card;
+  .more;
+  .flex-col;
+  .gap-1rem;
+}
+
+.player {
+  .flex-row;
+  gap: 0.5rem;
 }
 </style>

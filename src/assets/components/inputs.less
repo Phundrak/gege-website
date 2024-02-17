@@ -1,0 +1,39 @@
+@import '../_mixins';
+@import '../_theme';
+
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 0.6rem;
+  .themed(background-color, @light-background, @dark-background);
+  border: none;
+  border-radius: 1rem;
+  display: inline-block;
+  transition: all 0.2s ease;
+  display: inline-block;
+  position: relative;
+
+  &:checked {
+    .themed(background-color, @light-primary-500, @dark-primary);
+    .themed(color, @light-background, @dark-background);
+    transition: all 0.2s ease;
+  }
+}
+
+input[type='text'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  padding: 1rem;
+  border: none;
+  border-bottom: solid 1px;
+  .themed(border-bottom-color, @light-gray-10, @dark-gray-10);
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:focus {
+    .themed(background-color, @light-primary-300, @dark-primary-300);
+    outline: none;
+    transition: all 0.2s ease;
+  }
+}
